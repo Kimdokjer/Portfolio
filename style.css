@@ -200,11 +200,10 @@ nav.scrolled {
     margin: 0 auto;
     max-height: 600px; 
     overflow-y: auto;
-    padding-right: 20px; 
-    padding-left: 5px;
+    padding: 20px 10px; /* Keeps everything padded nicely inside the scroll box */
 }
 
-/* Custom Scrollbar for Timeline */
+/* Custom Scrollbar */
 .timeline::-webkit-scrollbar {
     width: 8px;
 }
@@ -221,27 +220,24 @@ nav.scrolled {
     background: var(--accent);
 }
 
+/* 
+  THE UNBREAKABLE LINE FIX 
+  Instead of margin, we use padding to create the space between cards. 
+  This allows the border-left to draw a single, unbroken line down the page!
+*/
 .timeline-item {
     position: relative;
-    padding-left: 60px;
-    margin-bottom: 40px;
+    padding-left: 50px;       /* Space for the dot */
+    padding-bottom: 40px;     /* Space between the cards */
+    margin-bottom: 0;         /* CRITICAL: Removed the margin that was breaking the line */
+    border-left: 2px solid #475569; /* The unbroken solid line */
+    margin-left: 15px;        /* Pushes the timeline inward slightly */
 }
 
-/* Draws the line from each item down to the next one */
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    width: 2px;
-    background: rgba(148, 163, 184, 0.2); /* Slightly visible line */
-    top: 15px; 
-    bottom: -40px; /* Stretches down to connect to the next dot */
-    left: 20px; /* Perfectly aligned with the center of the dot */
-    z-index: 1; /* Puts the line behind the dot */
-}
-
-/* Stops the line from hanging past the very last report */
-.timeline-item:last-child::before {
-    bottom: 0;
+/* Stops the line gracefully at the very last report */
+.timeline-item:last-child {
+    border-left-color: transparent; 
+    padding-bottom: 0;
 }
 
 .timeline-dot {
@@ -250,16 +246,17 @@ nav.scrolled {
     height: 16px;
     background: var(--accent);
     border-radius: 50%;
-    left: 13px;
-    top: 5px;
+    left: -9px; /* Centers the dot perfectly on the 2px line */
+    top: 0;     /* Aligns with the top of the card */
     box-shadow: 0 0 10px var(--accent);
-    z-index: 2; /* Keeps the dot glowing on top of the line */
+    z-index: 2;
 }
 
 .timeline-content {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 10px;
+    margin-top: -5px; /* Aligns the card cleanly with the dot */
 }
 
 .timeline-content .date {
